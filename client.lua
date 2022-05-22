@@ -18,41 +18,6 @@ RegisterNetEvent('qb-police:CopCount', function()
     cops = amount
 end)
 
-function Atm()
-    local pos = GetEntityCoords(PlayerPedId())
-    if LocalPlayer.state.isLoggedIn then
-        QBCore.Functions.TriggerCallback("gc-atmrobbery:Cooldown", function(cooldown)
-            if not cooldown then
-                if cops >= 0 then
-                    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(hasItem)
-                        if hasItem then
-                            call()
-                            exports['hacking']:OpenHackingGame(8, 4, 3, function(Success)
-                                if Success then -- success
-                                    ClearPedTasksImmediately(PlayerPedId())
-                                    HackSuccess()
-                                else
-                                    Citizen.Wait(1000)
-                                    ClearPedTasksImmediately(PlayerPedId())
-                                    HackFailed()
-                                end
-                            end)
-                        else
-                            QBCore.Functions.Notify("You need a pink laptop", "error")
-                        end
-                    end, "laptop_pink")
-                else
-                    QBCore.Functions.Notify("Not Enough Cops", "error")
-                end
-            else
-                QBCore.Functions.Notify("Hit recently", "error")
-            end
-        end)
-    else
-        Citizen.Wait(3000)
-    end
-end
-
 function progress()
     Anim = true
     QBCore.Functions.Progressbar("power_hack", "Robbing ATM...", (30000), false, true, {
